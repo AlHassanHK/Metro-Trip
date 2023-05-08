@@ -19,6 +19,70 @@ const getAllTrips = async (req, res) => {
   }
 };
 
+
+const deleteTrip = async (req, res) => {
+  try {
+    const id = req.body.id;
+    const deletedTrip = await trips.delete({
+      where: {
+        id: id
+      }
+    })
+    res.status(200).json(deletedTrip);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
+
+const updateTrip = async (req, res) => {
+  try {
+    const updatedTrip = await trips.update({
+      where: {
+        id: tripId
+      },
+      data: {
+        tripId:req.body.id,
+        userId : req.body.userId,
+        startLocation : req.body.startLocation,
+        purchasedAt : req.body.purchasedAt,
+        status : req.body.status,
+        totalPrice :req.body.totalPrice,
+        route : req.body.route,
+        transferStations : req.body.transferStations,
+      },
+    })
+    res.status(200).json(updatedTrip);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
+
+const bookTrip = async (req, res) => {
+  try {
+    const trip = await trips.create({
+      data: {
+        tripId:req.body.id,
+        userId : req.body.userId,
+        startLocation : req.body.startLocation,
+        purchasedAt : req.body.purchasedAt,
+        status : req.body.status,
+        totalPrice :req.body.totalPrice,
+        route : req.body.route,
+        transferStations : req.body.transferStations,
+      },
+    })
+    res.status(200).json(trip);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
+
 export default {
   getAllTrips,
+  deleteTrip,
+  updateTrip,
+  bookTrip
 };
