@@ -100,5 +100,6 @@ export default {
   getAllTrips,
   deleteTrip,
   updateTrip,
-  bookTrip
+  bookTrip,
+  getTripById
 };
