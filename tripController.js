@@ -5,7 +5,7 @@ import { PrismaClient } from "@prisma/client";
 //Database enums, user RideStatus.pending for example
 import { RideStatus } from "@prisma/client";
 import { RouteId } from "@prisma/client";
-import { RefundRequestStatus} from "@prisma/client";
+import { RefundRequestStatus } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -13,11 +13,28 @@ const trips = prisma.Trip; //use trips.findMany() for example, instead of typing
 
 const getAllTrips = async (req, res) => {
   try {
-    res.status(200).json({ data: {hello:"from trip service"} });
+    const allTrips = await trips.findMany({});
+    res.status(200).json({ allTrips });
   } catch (error) {
     res.status(400).send(error.message);
   }
 };
+
+const getTripById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const trip = await trips.findUnique({
+      where: {
+        id: id
+      }
+    });
+
+    res.status(200).json(trip);
+  } catch (error) {
+    res.status(400).send(error);
+
+  }
+}
 
 
 const deleteTrip = async (req, res) => {
@@ -37,19 +54,19 @@ const deleteTrip = async (req, res) => {
 
 const updateTrip = async (req, res) => {
   try {
+    const id = req.body.id;
     const updatedTrip = await trips.update({
       where: {
-        id: tripId
+        id: id
       },
       data: {
-        tripId:req.body.id,
-        userId : req.body.userId,
-        startLocation : req.body.startLocation,
-        purchasedAt : req.body.purchasedAt,
-        status : req.body.status,
-        totalPrice :req.body.totalPrice,
-        route : req.body.route,
-        transferStations : req.body.transferStations,
+        userId: req.body.userId,
+        startLocation: req.body.startLocation,
+        purchasedAt: req.body.purchasedAt,
+        status: req.body.status,
+        totalPrice: req.body.totalPrice,
+        route: req.body.route,
+        transferStations: req.body.transferStations,
       },
     })
     res.status(200).json(updatedTrip);
@@ -63,14 +80,13 @@ const bookTrip = async (req, res) => {
   try {
     const trip = await trips.create({
       data: {
-        tripId:req.body.id,
-        userId : req.body.userId,
-        startLocation : req.body.startLocation,
-        purchasedAt : req.body.purchasedAt,
-        status : req.body.status,
-        totalPrice :req.body.totalPrice,
-        route : req.body.route,
-        transferStations : req.body.transferStations,
+        userId: req.body.userId,
+        startLocation: req.body.startLocation,
+        purchasedAt: new Date(),
+        status: req.body.status,
+        totalPrice: req.body.totalPrice,
+        route: req.body.route,
+        transferStations: req.body.transferStations,
       },
     })
     res.status(200).json(trip);
