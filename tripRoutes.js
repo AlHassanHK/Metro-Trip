@@ -4,9 +4,9 @@ const router = express.Router();
   
 //define function logic in controller
 router.route("/").get(tripController.getAllTrips);
-router.route("/").get(tripController.deleteTrip);
-router.route("/").get(tripController.updateTrip);
-router.route("/").get(tripController.bookTrip);
+router.route("/delete").delete(tripController.deleteTrip);
+router.route("/update").patch(tripController.updateTrip);
+router.route("/book").post(tripController.bookTrip);
 
 
 export default router;  
