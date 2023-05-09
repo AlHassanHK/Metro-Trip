@@ -3,13 +3,16 @@ import createError from "http-errors";
 import cors from "cors";
 import tripRouter from "./tripRoutes.js";
 import * as dotenv from 'dotenv' 
+import morgan from "morgan";
 
 const app = express();
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 app.options("*", cors());
-
+app.use(morgan("tiny"));
 app.use("/api/trips", tripRouter);
 
 app.use((req, res, next) => {
