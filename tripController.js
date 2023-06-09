@@ -85,7 +85,7 @@ const bookTrip = async (req, res) => {
         purchasedAt: new Date(),
         status: RideStatus.ongoing,
         totalPrice: req.body.totalPrice,
-        route: req.body.route,
+        route:  RouteId.id ,
         transferStations: req.body.transferStations,
       },
     })
