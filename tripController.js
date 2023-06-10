@@ -91,7 +91,7 @@ const bookTrip = async (req, res) => {
     })
     res.status(200).json(trip);
   } catch (error) {
-    res.status(400).send(error.message);
+    res.status(400).json({error: error.message});
   }
 };
 
